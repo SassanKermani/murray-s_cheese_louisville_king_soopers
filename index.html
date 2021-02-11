@@ -1,18 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>cheese</title>
+	<style type="text/css">
+		
+		html, body {
+			overflow-x: hidden;
+		}
+		body {
+			position: relative;
+			margin: 0;
+			background-color: #d1d1cf;
+			overflow: hidden
+		}
+
+		#paddingDiv{
+			margin: 1vh 1vh 1vh 1vh;
+			/*height: 5vh*/
+		}
+
+		#userinput{
+			position: fixed;
+			background-color: grey;
+			width: 100vw;
+			height: 5vh;
+			text-align: center;
+			font-size: 4em;
+			/*left: 10vw;*/
+			margin: 0vh 0vh 0vh 0vh;
+			border: solid #353336 1vw;
+			overflow: hidden
+		}
+
+		#paddingDiv2{
+			height: 6vh;
+			overflow: hidden
+		}
+
+		#cheese_List{
+			background-color: #d1d1cf;
+			width: 98vw;
+			height: 95vh;
+			overflow: scroll;
+			padding: 1vw 1vw 1vw 1vw;
+
+		}
+
+		.cheese_List_item{
+			border: solid #353336 1px;
+			background-color: #95918e;
+			margin: 1vh 0vh 1vh 0vh;
+			padding: 1% 1% 1% 1%;
+			border-radius: 1%;
+
+			/*grid*/
+			display: grid;
+			grid-template-columns: 1fr 7fr;
+			grid-gap: 1vw;
+		}
+
+		.cheese_List_text{
+			font-size: 2em;
+		}
+
+		.logo{
+			width: 5vh;
+			height: 5vh;
+			border: solid #353336 3px;
+			display: inline;
+		}
+
+		/*CHESE INFO*/
+
+		#cheeseInfo{
+			position: fixed;
+			left: 5vw;
+			width: 90vw;
+			top: 5vh;
+			height: 90vh;
+			background-color: white;
+			font-size: 3em;
+			padding: 1% 1% 1% 1%;
+		}
+
+	</style>
 </head>
 <body>
-
-	<input id="cheseList" list="cheseList_List">
-	<datalist id="cheseList_List"></datalist>
-
-	<button id="showChese" >show chese</button>
-
-	<br>
-	<div id="info"></div>
 	
+	<div id="paddingDiv"></div>
+	<input id="userinput" type="text" value="search">
+	<div id="paddingDiv2"></div>
+	<div id="cheese_List">
+	</div>
+
+	<div id="cheeseInfo" hidden="">
+			
+		<p>Producer : Supreme </p>
+		<p>Item Name : BRIE </p>
+		<p>PLU" : 49003 </p>
+		<p>Cut Style : Cake </p>
+		<p>Whole : 4 </p>
+		<p>Half Qtr :  </p>
+		<p>Cut :  </p>
+		<p>family : BLOOMY </p>
+
+	</div>
+		
 	<script type="text/javascript">
 		
 		let cheseList = [
@@ -1371,49 +1464,117 @@
 			}
 		]
 
+		let cheseListText  = [];
+
 		cheseList.map((i, index)=>{
-			let option = document.createElement(`option`);
-			option.value = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
-			document.getElementById('cheseList_List').appendChild(option);
+			let div = document.createElement(`div`);
+			div.classList.add(`cheese_List_item`);
+			div.addEventListener(`click`, ()=>{
+
+				document.getElementById(`cheeseInfo`).removeAttribute(`hidden`);
+				document.getElementById(`cheeseInfo`).innerHTML = ``;
+				document.getElementById(`cheeseInfo`).innerHTML = `
+					<p>Producer : ${i.Producer} </p>
+					<p>Item Name : ${i["Item Name"]} </p>
+					<p>PLU" : ${i.PLU} </p>
+					<p>Cut Style : ${i["Cut Style"]} </p>
+					<p>Whole : ${i.Whole} </p>
+					<p>Half Qtr : ${i["Half Qtr"]} </p>
+					<p>Cut : ${i.Cut} </p>
+					<p>family : ${i.family} </p>
+				`
+
+			})
+			document.getElementById(`cheese_List`).appendChild(div);
+
+			let img = document.createElement(`img`);
+			img.classList.add(`logo`);
+			img.src = `Murray's_Cheese-Logo.wine.png`;
+			div.appendChild(img);
+
+			let span = document.createElement(`span`);
+			span.classList.add(`cheese_List_text`)
+			span.innerHTML = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
+			div.appendChild(span);
+
+			cheseListText[index] = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
 		})
 
-		document.getElementById(`showChese`).addEventListener(`click`, ()=>{
-			cheseList.map((i, index)=>{
+		/*----------  Search bar  ----------*/
 
-				if(i.PLU == `${(document.getElementById("cheseList").value).split(":")[2]}`){
-					console.log(i);
+		let userinput = `search`;
+		document.addEventListener(`keyup`, (event)=>{
+			if(userinput != document.getElementById(`userinput`).value){
+				startSearch(document.getElementById(`userinput`).value);
+			}
+		})
 
-					Producer	= document.createElement(`p`);
-					ItemName	= document.createElement(`p`);
-					PLU			= document.createElement(`p`);
-					CutStyle	= document.createElement(`p`);
-					Whole		= document.createElement(`p`);
-					HalfQtr		= document.createElement(`p`);
-					Cut			= document.createElement(`p`);
-					family		= document.createElement(`p`);
+		let delayTimer;
 
-					Producer.innerHTML = `Producer : ${ i["Producer"]}`
-					ItemName.innerHTML = `Item Name : ${ i["Item Name"]}`
-					PLU.innerHTML = `PLU : ${ i["PLU"]}`
-					CutStyle.innerHTML = `Cut Style : ${ i["Cut Style"]}`
-					Whole.innerHTML = `Whole : ${ i["Whole"]}`
-					HalfQtr.innerHTML = `Half Qtr : ${ i["Half Qtr"]}`
-					Cut.innerHTML = `Cut : ${ i["Cut"]}`
-					family.innerHTML = `family : ${ i["family"]}`
+		function startSearch(text) {
+			clearTimeout(delayTimer);
+				delayTimer = setTimeout(function() {
+				
+					// console.log(`${text} : in the userinput`)
+					doSearch(text)
 
-					document.getElementById(`info`).appendChild(Producer);
-					document.getElementById(`info`).appendChild(ItemName);
-					document.getElementById(`info`).appendChild(PLU);
-					document.getElementById(`info`).appendChild(CutStyle);
-					document.getElementById(`info`).appendChild(Whole);
-					document.getElementById(`info`).appendChild(HalfQtr);
-					document.getElementById(`info`).appendChild(Cut);
-					document.getElementById(`info`).appendChild(family);
+			}, 1000);
+		}
 
-				}
-			})
-		});
+		function doSearch(text){
+
+			document.getElementById(`cheese_List`).innerHTML = ``;
+
+			if(text != `` | text != ` `| text != `search`){
+				cheseList.map((i, index)=>{
+					if(cheseListText[index].toLowerCase().includes(text.toLowerCase())){
+
+						let div = document.createElement(`div`);
+						div.classList.add(`cheese_List_item`);
+						document.getElementById(`cheese_List`).appendChild(div);
+
+						let img = document.createElement(`img`);
+						img.classList.add(`logo`);
+						img.src = `Murray's_Cheese-Logo.wine.png`;
+						div.appendChild(img);
+
+						let span = document.createElement(`span`);
+						span.classList.add(`cheese_List_text`)
+						span.innerHTML = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
+						div.appendChild(span);
+					}
+				})
+			}else{
+
+				document.getElementById(`userinput`).value = `search`
+
+				cheseList.map((i, index)=>{					
+
+					let div = document.createElement(`div`);
+					div.classList.add(`cheese_List_item`);
+					document.getElementById(`cheese_List`).appendChild(div);
+
+					let img = document.createElement(`img`);
+					img.classList.add(`logo`);
+					img.src = `Murray's_Cheese-Logo.wine.png`;
+					div.appendChild(img);
+
+					let span = document.createElement(`span`);
+					span.classList.add(`cheese_List_text`)
+					span.innerHTML = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
+					div.appendChild(span);
+				
+				})
+
+			}
+
+		}
+
+		document.getElementById(`cheeseInfo`).addEventListener(`click`, ()=>{
+			document.getElementById(`cheeseInfo`).hidden = true;
+		})
 
 	</script>
+
 </body>
 </html>
