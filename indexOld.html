@@ -4,46 +4,52 @@
 	<title>cheese</title>
 	<style type="text/css">
 		
-		body{
-			background-color: #ece7e1;
-			display: block;
+		html, body {
+			overflow-x: hidden;
+		}
+		body {
+			position: relative;
 			margin: 0;
+			background-color: #d1d1cf;
+			overflow: hidden
+		}
+
+		#paddingDiv{
+			margin: 1vh 1vh 1vh 1vh;
+			/*height: 5vh*/
 		}
 
 		#userinput{
-			background-color: #ffffff;
-			border: solid #c82e29 5px;
-
 			position: fixed;
-			top: 1vh;
-			left: 5vw;
-			
-			width: 90vw;
+			background-color: grey;
+			width: 100vw;
 			height: 5vh;
 			text-align: center;
 			font-size: 4em;
+			/*left: 10vw;*/
+			margin: 0vh 0vh 0vh 0vh;
+			border: solid #353336 1vw;
+			overflow: hidden
 		}
 
-		#padding{
-			width: 100vw;
-			height: 7vh;
-
-			/*background-color: green;*/
+		#paddingDiv2{
+			height: 6vh;
+			overflow: hidden
 		}
 
 		#cheese_List{
-			padding-left: 2.5vw;
-			width: 95vw;
-			height: 93vh;
+			background-color: #d1d1cf;
+			width: 98vw;
+			height: 95vh;
 			overflow: scroll;
+			padding: 1vw 1vw 1vw 1vw;
 
-			/*background-color: green;*/
 		}
 
 		.cheese_List_item{
-			border: solid #c82e29 5px;
-			background-color: #fafafa;
-			margin: 2.5vw 0vh 2.5vw 0vh;
+			border: solid #353336 1px;
+			background-color: #95918e;
+			margin: 1vh 0vh 1vh 0vh;
 			padding: 1% 1% 1% 1%;
 			border-radius: 1%;
 
@@ -58,34 +64,50 @@
 		}
 
 		.logo{
-			width: 10vh;
-			height: 10vh;
-			/*border: solid black 3px;*/
+			width: 5vh;
+			height: 5vh;
+			border: solid #353336 3px;
 			display: inline;
+		}
+
+		/*CHESE INFO*/
+
+		#cheeseInfo{
+			position: fixed;
+			left: 5vw;
+			width: 90vw;
+			top: 5vh;
+			height: 90vh;
+			background-color: white;
+			font-size: 3em;
+			padding: 1% 1% 1% 1%;
 		}
 
 	</style>
 </head>
 <body>
-
+	
+	<div id="paddingDiv"></div>
 	<input id="userinput" type="text" value="search">
+	<div id="paddingDiv2"></div>
+	<div id="cheese_List">
+	</div>
 
-	<div id="listVeiw">
-		
-		<div id="padding"></div>
-
-		<div id="cheese_List">
+	<div id="cheeseInfo" hidden="">
 			
-			
-
-		</div>
+		<p>Producer : Supreme </p>
+		<p>Item Name : BRIE </p>
+		<p>PLU" : 49003 </p>
+		<p>Cut Style : Cake </p>
+		<p>Whole : 4 </p>
+		<p>Half Qtr :  </p>
+		<p>Cut :  </p>
+		<p>family : BLOOMY </p>
 
 	</div>
-	<div id="cheseVeiw" hidden=""></div>
-
+		
 	<script type="text/javascript">
 		
-		let cheseListText = [];
 		let cheseList = [
 
 			/*----------  BLOOMY  ----------*/
@@ -152,7 +174,7 @@
 			},
 			{
 				"Producer" : "Fromagerie Guilloteau",
-				"Item Name" : "FROMAGER D'AFFINOIS BLACK TRUFFLE",
+				"Item Name" : "FROMAGER D AFFINOIS BLACK TRUFFLE",
 				"PLU" : 490108,
 				"Cut Style" : "Cake",
 				"Whole" : 45,
@@ -347,6 +369,16 @@
 				"Item Name" : "GORGONZOLA MOUNTAIN",
 				"PLU" : 498812,
 				"Cut Style" : "Barrel 3",
+				"Whole" : 90,
+				"Half Qtr" : 45,
+				"Cut" : 21,
+				"family" : "Blue",
+			},
+			{
+				"Producer" : "Point Reyes",
+				"Item Name" : "ORIGINAL BLUE CHEESE",
+				"PLU" : 498806,
+				"Cut Style" : "Pie",
 				"Whole" : 90,
 				"Half Qtr" : 45,
 				"Cut" : 21,
@@ -882,7 +914,7 @@
 				"family" : "GOUDA",
 			},
 			{
-				"Producer" : "Murray's",
+				"Producer" : "MURRAY'S",
 				"Item Name" : "HONEY GOAT GOUDA",
 				"PLU" : 496877,
 				"Cut Style" : "Pie",
@@ -1432,192 +1464,44 @@
 			}
 		]
 
-		/*----------  SetUP  ----------*/
+		let cheseListText  = [];
 
 		cheseList.map((i, index)=>{
-			drawCheese(i);
-			cheseListText[index] = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
-		})
-		
-		/*----------  Add To cheese list  ----------*/
-		function drawCheese(cheeseIteam){
-
 			let div = document.createElement(`div`);
 			div.classList.add(`cheese_List_item`);
+			div.addEventListener(`click`, ()=>{
+
+				document.getElementById(`cheeseInfo`).removeAttribute(`hidden`);
+				document.getElementById(`cheeseInfo`).innerHTML = ``;
+				document.getElementById(`cheeseInfo`).innerHTML = `
+					<p>Producer : ${i.Producer} </p>
+					<p>Item Name : ${i["Item Name"]} </p>
+					<p>PLU" : ${i.PLU} </p>
+					<p>Cut Style : ${i["Cut Style"]} </p>
+					<p>Whole : ${i.Whole} </p>
+					<p>Half Qtr : ${i["Half Qtr"]} </p>
+					<p>Cut : ${i.Cut} </p>
+					<p>family : ${i.family} </p>
+				`
+
+			})
 			document.getElementById(`cheese_List`).appendChild(div);
 
 			let img = document.createElement(`img`);
 			img.classList.add(`logo`);
-
-			switch(true){
-				case(cheeseIteam["Producer"] == `Murray's`):
-				 	img.src = `Murray's_Cheese-Logo.wine.png`;
-				 	break;
-				case(cheeseIteam["Producer"] == `Alta Langa`):
-				 	img.src = `Murray's_Cheese-Logo.wine.png`;
-				 	break;
-				case(cheeseIteam["Producer"] == `Supreme`):
-					img.src = `supremeCheese.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Lactalis`):
-					img.src = `lactalisCheeseLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Fromagerie Guilloteau`):
-					img.src = `FromagerieGuilloteauLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Cypress Grove`):
-					img.src = `CypressGrove.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Cowgirl Creamery`):
-					img.src = `cowgirlCreamery.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Belletoile`):
-					img.src = `belletoileLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Point Reyes`):
-					img.src = `pointreyes.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Black River`):
-					img.src = `BlackRiverLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Roth Kase`):
-					img.src = `rothkase.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Champignon`):
-					img.src = `champignonLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Kerrygold`):
-					img.src = `kerrygoldLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Rogue Creamery`):
-					img.src = `rogueCreameryLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Ciresa`):
-					img.src = `ciresaLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `CIRESA`):
-					img.src = `ciresaLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Salemville®`):
-					img.src = `Salemville®Logo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Beehive Cheese Company`):
-					img.src = `BeehiveCheeseCompanyLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Beehive`):
-					img.src = `BeehiveCheeseCompanyLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Beehive Cheese`):
-					img.src = `BeehiveCheeseCompanyLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Cellars At Jasper Hill`):
-					img.src = `CellarsAtJasperHillLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `SOMERDALE`):
-					img.src = `SOMERDALELogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Somerdale`):
-					img.src = `SOMERDALELogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Spring Green`):
-					img.src = `SpringGreenLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Old Croc`):
-					img.src = `OldCrocLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Mrs. Quicke's`):
-					img.src = `Mrs.Quicke'sLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Beecher's Handmade Cheese`):
-					img.src = `Beecher'sHandmadeCheeseLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Westminster`):
-					img.src = `WestminsterLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Rocking W`):
-					img.src = `RockingWLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Belgioioso`):
-					img.src = `BelgioiosoLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Long Clawson`):
-					img.src = `LongClawsonLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Cello`):
-					img.src = `CelloLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Cello Cheese`):
-					img.src = `CelloLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Maple Leaf`):
-					img.src = `MapleLeafLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `New Bridge`):
-					img.src = `NewBridgeLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Parrano`):
-					img.src = `ParranoLogo.png`;
-					break;ParranoLogo.png
-				case(cheeseIteam["Producer"] == `Parrano`):
-					img.src = `ParranoLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Kaamps`):
-					img.src = `KaampsLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Rembrandt`):
-					img.src = `RembrandtLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Brugge`):
-					img.src = `BruggeLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Frans Hals`):
-					img.src = `FransHalsLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Holland's Family Cheese`):
-					img.src = `Holland'sFamilyCheeseLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Thise Dairy`):
-					img.src = `ThiseDairyLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Sartori`):
-					img.src = `SartoriLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Kaseri Studer`):
-					img.src = `KaseriStuderLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Emmi`):
-					img.src = `EmmiLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Mitica`):
-					img.src = `MiticaLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Hofkäserei Kraus`):
-					img.src = `HofkäsereiKrausLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Haystack Mountain`):
-					img.src = `HaystackMountainLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Isigny`):
-					img.src = `IsignyLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Uplands Farm`): 			//GET THIS LOG LATTER GHA 
-					img.src = `UplandsFarmLogo.png`;
-					break;
-				case(cheeseIteam["Producer"] == `Spring Brook Farm`):
-					img.src = `SpringBrookFarmLogo.png`;
-					break;	
-			}
-
-
+			img.src = `Murray's_Cheese-Logo.wine.png`;
 			div.appendChild(img);
 
 			let span = document.createElement(`span`);
 			span.classList.add(`cheese_List_text`)
-			span.innerHTML = `${cheeseIteam["Producer"]} : ${cheeseIteam["Item Name"]} : ${cheeseIteam["PLU"]}`;
+			span.innerHTML = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
 			div.appendChild(span);
-		}
 
-		/*----------  Search  ----------*/
+			cheseListText[index] = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
+		})
+
+		/*----------  Search bar  ----------*/
+
 		let userinput = `search`;
 		document.addEventListener(`keyup`, (event)=>{
 			if(userinput != document.getElementById(`userinput`).value){
@@ -1630,7 +1514,10 @@
 		function startSearch(text) {
 			clearTimeout(delayTimer);
 				delayTimer = setTimeout(function() {
+				
+					// console.log(`${text} : in the userinput`)
 					doSearch(text)
+
 			}, 1000);
 		}
 
@@ -1641,13 +1528,53 @@
 			if(text != `` | text != ` `| text != `search`){
 				cheseList.map((i, index)=>{
 					if(cheseListText[index].toLowerCase().includes(text.toLowerCase())){
-						drawCheese(i);
+
+						let div = document.createElement(`div`);
+						div.classList.add(`cheese_List_item`);
+						document.getElementById(`cheese_List`).appendChild(div);
+
+						let img = document.createElement(`img`);
+						img.classList.add(`logo`);
+						img.src = `Murray's_Cheese-Logo.wine.png`;
+						div.appendChild(img);
+
+						let span = document.createElement(`span`);
+						span.classList.add(`cheese_List_text`)
+						span.innerHTML = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
+						div.appendChild(span);
 					}
 				})
+			}else{
+
+				document.getElementById(`userinput`).value = `search`
+
+				cheseList.map((i, index)=>{					
+
+					let div = document.createElement(`div`);
+					div.classList.add(`cheese_List_item`);
+					document.getElementById(`cheese_List`).appendChild(div);
+
+					let img = document.createElement(`img`);
+					img.classList.add(`logo`);
+					img.src = `Murray's_Cheese-Logo.wine.png`;
+					div.appendChild(img);
+
+					let span = document.createElement(`span`);
+					span.classList.add(`cheese_List_text`)
+					span.innerHTML = `${i["Producer"]} : ${i["Item Name"]} : ${i["PLU"]}`;
+					div.appendChild(span);
+				
+				})
+
 			}
+
 		}
 
+		document.getElementById(`cheeseInfo`).addEventListener(`click`, ()=>{
+			document.getElementById(`cheeseInfo`).hidden = true;
+		})
 
 	</script>
+
 </body>
 </html>
