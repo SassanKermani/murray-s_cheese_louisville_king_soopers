@@ -1,0 +1,23 @@
+{
+  "name": "murray-s_cheese_louisville_king_soopers",
+  "version": "1.0.0",
+  "description": "if you want me to take this down fine just create an isue but to be honist this is going to make working easyer",
+  "main": "parse.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SassanKermani/murray-s_cheese_louisville_king_soopers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SassanKermani/murray-s_cheese_louisville_king_soopers/issues"
+  },
+  "homepage": "https://github.com/SassanKermani/murray-s_cheese_louisville_king_soopers#readme",
+  "dependencies": {
+    "parse": "^2.19.0"
+  }
+}

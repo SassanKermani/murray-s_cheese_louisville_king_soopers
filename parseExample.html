@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<!-- <script type="text/javascript" src="parse.js"></script> -->
+</head>
+<body>
+	
+	<script src="node_modules/parse/dist/parse.min.js"></script>
+	<script type="text/javascript" src="keys.js"></script>
+
+	<script>
+		Parse.serverURL = 'https://parseapi.back4app.com'; // This is your Server URL
+		Parse.initialize(
+			'XAtO6JpDbkGEMltXomNHrqPhL71vEFO5OzcMFJvr', // This is your Application ID
+			'DD63SPONUrTFHtjdy6kHNNjCtUKHw3GB1X5NzPy3', // This is your Javascript key
+		);
+
+
+		/*=============================
+		=            WRITE            =
+		=============================*/
+		
+		// const MyCustomClass = Parse.Object.extend('MyCustomClassName');
+		// const myNewObject = new MyCustomClass();
+
+		// myNewObject.set('myCustomKey1Name', 'myCustomKey1Value');
+		// myNewObject.set('myCustomKey2Name', 'myCustomKey2Value');
+
+		// myNewObject.save().then(
+		// 	(result) => {
+		// 		if (typeof document !== 'undefined') document.write(`ParseObject created: ${JSON.stringify(result)}`);
+		// 		console.log('ParseObject created', result);
+		//   },
+		//   (error) => {
+		// 		if(typeof document !== 'undefined') document.write(`Error while creating ParseObject: ${JSON.stringify(error)}`);
+		// 		console.error('Error while creating ParseObject: ', error);
+		//   }
+		// );
+		
+		/*=====  End of WRITE  ======*/
+
+		/*============================
+		=            READ            =
+		============================*/
+		
+		// const MyCustomClass = Parse.Object.extend('MyCustomClassName');
+		// const query = new Parse.Query(MyCustomClass);
+		// query.equalTo("myCustomKey1Name", "myCustomKey1Value");
+		// query.find().then((results) => {
+		// 	// You can use the "get" method to get the value of an attribute
+		// 	// Ex: response.get("<ATTRIBUTE_NAME>")
+		// 	if (typeof document !== 'undefined') document.write(`ParseObjects found: ${JSON.stringify(results)}`);
+		// 	console.log('ParseObjects found:', results);
+		// }, (error) => {
+		// 	if (typeof document !== 'undefined') document.write(`Error while fetching ParseObjects: ${JSON.stringify(error)}`);
+		// 	console.error('Error while fetching ParseObjects', error);
+		// });
+		
+		/*=====  End of READ  ======*/
+
+		/*==============================
+		=            UPDATE            =
+		==============================*/
+		
+		// const MyCustomClass = Parse.Object.extend('MyCustomClassName');
+		// const query = new Parse.Query(MyCustomClass);
+		// // here you put the objectId that you want to update
+		// query.get('ZcV1yBW73W').then((object) => {
+		// 	object.set('myCustomKey1Name', 'OK NEW TEST');
+		// 	object.save().then((response) => {
+		// 		// You can use the "get" method to get the value of an attribute
+		// 		// Ex: response.get("<ATTRIBUTE_NAME>")
+		// 		if (typeof document !== 'undefined') document.write(`Updated : ${JSON.stringify(response)}`);
+		// 		console.log('Updated ', response);
+		// 	  }, (error) => {
+		// 	if (typeof document !== 'undefined') document.write(`Error while updating : ${JSON.stringify(error)}`);
+		// 		console.error('Error while updating ', error);
+		// 	});
+		// });
+
+		/*----------  Subsection comment block  ----------*/
+
+		// const MyCustomClass = Parse.Object.extend('MyCustomClassName');
+		// const query = new Parse.Query(MyCustomClass);
+		// // here you put the objectId that you want to update
+		// query.get('xKue915KBG').then((object) => {
+		// 	// After this, the myCustomKeyName field will be empty
+		// 	object.unset('myCustomKeyName');
+
+		// 	object.save().then((response) => {
+		// 		console.log(response);
+		// 	})
+		// }, (error) => {
+		// 	console.error(error);
+		// });
+		
+		/*=====  End of UPDATE  ======*/
+		
+		/*==============================
+		=            Delete            =
+		==============================*/
+		
+		// const MyCustomClass = Parse.Object.extend('MyCustomClassName');
+		// const query = new Parse.Query(MyCustomClass);
+		// // here you put the objectId that you want to delete
+		// query.get('xKue915KBG').then((object) => {
+		// 	object.destroy().then((response) => {
+		// 		if (typeof document !== 'undefined') document.write(`Deleted ParseObject: ${JSON.stringify(response)}`);
+		// 		console.log('Deleted ParseObject', response);
+		// 	}, (error) => {
+		// 		if (typeof document !== 'undefined') document.write(`Error while deleting ParseObject: ${JSON.stringify(error)}`);
+		// 		console.error('Error while deleting ParseObject', error);
+		// 	});
+		// });
+		
+		/*=====  End of Delete  ======*/
+
+		/*=============================
+		=            Types            =
+		=============================*/
+		
+		// const stringExample = 'A string';
+
+		// const numberExample = 1;
+
+		// const booleanExample = true;
+
+		// const arrayExample = [1, 'a string'];
+
+		// const objectExample = { foo: 'bar' };
+
+		// const dateExample = new Date();
+
+		// const fileExample = new Parse.File("resume.txt", { base64: btoa("My file content") });
+
+		// const pointerExample = new Parse.Object("<YOUR_CLASS_NAME>");
+
+		// const relationExample = new Parse.Object("<YOUR_CLASS_NAME>");
+
+		// const geopointExample = new Parse.GeoPoint({latitude: 40.0, longitude: -30.0});
+
+		// const polygonExample = new Parse.Polygon([ [0,0], [0,1], [1,0] ]);
+		
+		/*=====  End of Types  ======*/
+		
+
+	</script>
+
+</body>
+</html>
