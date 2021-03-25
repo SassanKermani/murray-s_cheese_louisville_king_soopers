@@ -57,6 +57,8 @@
 			display: inline;
 		}
 
+		/*----------  Chese Veiw  ----------*/
+
 		#cheseVeiw{
 			position: fixed;
 			left: 0px;
@@ -68,17 +70,91 @@
 			padding: 1% 1% 1% 1%;
 		}
 
+		#new_cheseVeiw{
+			position: fixed;
+			left: 0px;
+			width: 100vw;
+			top: 0px;
+			height: 100vh;
+			background-color: white;
+			font-size: 3em;
+			padding: 1% 1% 1% 1%;
+		}
+
+		#new_cheseVeiw_table {
+			font-family: Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+			#new_cheseVeiw_table td, #new_cheseVeiw_table th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+
+			#new_cheseVeiw_table th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: #4CAF50;
+			color: white;
+		}
+
+			.new_cheseVeiw_input{
+			font-size: 1em;
+			width: 98%;
+		}
+
 	</style>
 </head>
 <body>
 
 	<input id="userinput" type="text" value="search">
 	<div id="padding"></div>
-	<div id="cheese_List">
+	<!-- <div class="cheese_List_item" onclick="addNewCheese()">
+		<img class="logo" src="">
+		<span class="cheese_List_text">ADD NEW CHEESE </span>
+	</div> -->
+	<div id="cheese_List"></div>
+	<div id="cheseVeiw" hidden=""></div>
+	<div id="new_cheseVeiw" hidden="">
 		
+		<table id="new_cheseVeiw_table">
+			<tr>
+				<td>Producer</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>Chese Name</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>PLU</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>Cut type</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>Days for Wheel</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>Days for half Wheel</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>Days for pice</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td>Cheese Family</td>
+				<td><input class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+		</table>
+
 	</div>
-	<!-- <button>add new chese</button> -->
-	<div id="cheseVeiw" hidden="">
 
 	<script type="text/javascript" src="parse.min.js"></script>
 	<script type="text/javascript">
@@ -139,14 +215,51 @@
 				document.getElementById(`cheseVeiw`).innerHTML = ``;
 				document.getElementById(`cheseVeiw`).innerHTML = `
 
-					<p> ${cheeseIteam.get("producer")} </p>
-					<p> ${cheeseIteam.get("itemName")} </p>
-					<p> ${cheeseIteam.get("plu")} </p>
-					<p> ${cheeseIteam.get("cutStyle")} </p>
-					<p> ${cheeseIteam.get("whole")} </p>
-					<p> ${cheeseIteam.get("halfQtr")} </p>
-					<p> ${cheeseIteam.get("cut")} </p>
-					<p> ${cheeseIteam.get("family")} </p>
+					<!-- 
+					<div> <span> Producer : ${cheeseIteam.get("producer")} </span> </div>
+					<div> <span> Chese Name : ${cheeseIteam.get("itemName")} </span> </div>
+					<div> <span> PLU : ${cheeseIteam.get("plu")} </span> </div>
+					<div> <span> Cut type : ${cheeseIteam.get("cutStyle")} </span> </div>
+					<div> <span> Days for Wheel : ${cheeseIteam.get("whole")} </span> </div>
+					<div> <span> Days for half Wheel : ${cheeseIteam.get("halfQtr")} </span> </div>
+					<div> <span> Days for pice : ${cheeseIteam.get("cut")} </span> </div>
+					<div> <span> Cheese Family : ${cheeseIteam.get("family")} </span> </div>
+					-->
+
+					<table id="new_cheseVeiw_table">
+						<tr>
+							<td>Producer</td>
+							<td>${cheeseIteam.get("producer")}</td>
+						</tr>
+						<tr>
+							<td>Chese Name</td>
+							<td>${cheeseIteam.get("itemName")}</td>
+						</tr>
+						<tr>
+							<td>PLU</td>
+							<td>${cheeseIteam.get("plu")}</td>
+						</tr>
+						<tr>
+							<td>Cut type</td>
+							<td>${cheeseIteam.get("cutStyle")}</td>
+						</tr>
+						<tr>
+							<td>Days for Wheel</td>
+							<td>${cheeseIteam.get("whole")}</td>
+						</tr>
+						<tr>
+							<td>Days for half Wheel</td>
+							<td>${cheeseIteam.get("halfQtr")}</td>
+						</tr>
+						<tr>
+							<td>Days for pice</td>
+							<td>${cheeseIteam.get("cut")}</td>
+						</tr>
+						<tr>
+							<td>Cheese Family</td>
+							<td>${cheeseIteam.get("family")}</td>
+						</tr>
+					</table>
 
 				`;
 			})
@@ -363,6 +476,20 @@
 		
 		/*=====  End of Search  ======*/
 		
+		/*======================================
+		=            Add New Cheese            =
+		======================================*/
+		
+		function addNewCheese(){
+
+			console.log(`new_cheseVeiw`)
+			document.getElementById(`new_cheseVeiw`).removeAttribute(`hidden`);
+
+		}
+		
+		/*=====  End of Add New Cheese  ======*/
+		
+
 		document.getElementById(`cheseVeiw`).addEventListener(`click`, ()=>{
 			document.getElementById(`cheseVeiw`).hidden = true;
 		})
