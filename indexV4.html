@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>murray's cheese</title>
+</head>
+<body>
+
+	<script type="text/javascript" src="parse.min.js"></script>
+	<script type="text/javascript">
+		
+		/*============================
+		=            VARS            =
+		============================*/
+		
+		Parse.serverURL = 'https://parseapi.back4app.com';
+		Parse.initialize(
+			'XAtO6JpDbkGEMltXomNHrqPhL71vEFO5OzcMFJvr',
+			'DD63SPONUrTFHtjdy6kHNNjCtUKHw3GB1X5NzPy3'
+		);
+		const CheeseClass = Parse.Object.extend('cheese');
+
+		let cheseListText = [];
+		let cheseList = [];
+		let numberOfCheesesInDb;
+		
+		/*----------  function global vars  ----------*/
+		let activlyUseingThoughDb = false;
+
+		/*=====  End of VARS  ======*/
+		
+		/*===================================
+		=            GET FROM DB            =
+		===================================*/
+		
+		/*----------  COUNT  ----------*/
+		function count_numberOfCheesesInDb(callback){
+			const query = new Parse.Query(CheeseClass);
+			query.count().then(
+				(results) => {
+					numberOfCheesesInDb = results;
+					if(callback){
+						callback();
+					}
+				}, (error) => {
+					alert('Error while fetching ParseObjects', error);
+				}
+			)
+		}
+		
+		function getCheseFromDb(callback, skip){
+
+			console.log(`getCheseFromDb`);
+
+			const query = new Parse.Query(CheeseClass);
+			if(skip){
+				query.skip(skip);
+			}
+			query.find().then(
+				(results) => {
+					
+					results.map((i, index)=>{
+						cheseList.push(i);
+
+						if(index == (results.length-1)){
+							
+							if(cheseList.length < (numberOfCheesesInDb-1)){
+								activlyUseingThoughDb = true;
+								getCheseFromDb(callback, cheseList.length);
+
+							}else{
+								activlyUseingThoughDb = false;
+							}
+
+							if(index == (cheseList.length - 1) && !activlyUseingThoughDb && callback){
+								callback();
+							}
+						}
+					})
+
+					
+				}, (error) => {
+					alert('Error while fetching ParseObjects', error);
+				}
+			)
+		}
+
+		/*=====  End of GET FROM DB  ======*/
+		
+		/*============================
+		=            Draw            =
+		============================*/
+		
+		function drawCheeseList(){
+
+		}
+		
+		/*=====  End of Draw  ======*/
+		
+
+		/*----------  TEST  ----------*/
+		count_numberOfCheesesInDb(getCheseFromDb);
+
+	</script>
+</body>
+</html>
+<!-- document.getElementsByTagName(`video`)[0].playbackRate = 2 -->

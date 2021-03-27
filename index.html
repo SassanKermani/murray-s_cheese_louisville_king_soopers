@@ -87,12 +87,12 @@
 			width: 100%;
 		}
 
-			#new_cheseVeiw_table td, #new_cheseVeiw_table th {
+		#new_cheseVeiw_table td, #new_cheseVeiw_table th {
 			border: 1px solid #ddd;
 			padding: 8px;
 		}
 
-			#new_cheseVeiw_table th {
+		#new_cheseVeiw_table th {
 			padding-top: 12px;
 			padding-bottom: 12px;
 			text-align: left;
@@ -100,9 +100,14 @@
 			color: white;
 		}
 
-			.new_cheseVeiw_input{
+		.new_cheseVeiw_input{
 			font-size: 1em;
 			width: 98%;
+		}
+
+		#addNewCheese_button{
+			font-size: 1em;
+			width: 100%;
 		}
 
 	</style>
@@ -111,10 +116,10 @@
 
 	<input id="userinput" type="text" value="search">
 	<div id="padding"></div>
-	<!-- <div class="cheese_List_item" onclick="addNewCheese()">
+	<div class="cheese_List_item" onclick="addNewCheeseGUI()">
 		<img class="logo" src="">
 		<span class="cheese_List_text">ADD NEW CHEESE </span>
-	</div> -->
+	</div>
 	<div id="cheese_List"></div>
 	<div id="cheseVeiw" hidden=""></div>
 	<div id="new_cheseVeiw" hidden="">
@@ -122,35 +127,38 @@
 		<table id="new_cheseVeiw_table">
 			<tr>
 				<td>Producer</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_producer" class="new_cheseVeiw_input" type="text"></td>
 			</tr>
 			<tr>
 				<td>Chese Name</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_itemName" class="new_cheseVeiw_input" type="text"></td>
 			</tr>
 			<tr>
 				<td>PLU</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_plu" class="new_cheseVeiw_input" type="number"></td>
 			</tr>
 			<tr>
 				<td>Cut type</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_cutStyle" class="new_cheseVeiw_input" type="text"></td>
 			</tr>
 			<tr>
 				<td>Days for Wheel</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_whole" class="new_cheseVeiw_input" type="number"></td>
 			</tr>
 			<tr>
 				<td>Days for half Wheel</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_halfQtr" class="new_cheseVeiw_input" type="number"></td>
 			</tr>
 			<tr>
 				<td>Days for pice</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_cut" class="new_cheseVeiw_input" type="number"></td>
 			</tr>
 			<tr>
 				<td>Cheese Family</td>
-				<td><input class="new_cheseVeiw_input" type="text"></td>
+				<td><input id="new_family" class="new_cheseVeiw_input" type="text"></td>
+			</tr>
+			<tr>
+				<td><button id="addNewCheese_button" onclick="addNewCheese()">post</button></td>
 			</tr>
 		</table>
 
@@ -167,34 +175,103 @@
 		const CheeseClass = Parse.Object.extend('cheese');
 
 		let cheseListText = [];
-		let cheseList;
+		let cheseList = [];
 
 		/*===================================
 		=            GET FROM DB            =
 		===================================*/
 		
-		const query = new Parse.Query(CheeseClass);
-		query.find().then(
-			(results) => {
-				if (typeof document !== 'undefined'){
-					// document.write(`ParseObjects found: ${JSON.stringify(results)}`);
+		// const query = new Parse.Query(CheeseClass);					//THIS IS THE SPOT
+		// // query.skip(100);
+		// // query.setLimit(100\0);
 
-					cheseList = results;
+		// query.count().then(
+		// 	(result)=>{
+		// 		console.log(result);
+		// 	}
+		// )
 
-					cheseList.map((i, index)=>{
-						drawCheese(i);
-						cheseListText[index] = `${i.get("producer")} : ${i.get(`itemName`)} : ${i.get(`plu`)}`;
+		// // query.find().then(
+		// // 	(results) => {
+		// // 		if (typeof document !== 'undefined'){
+		// // 			// document.write(`ParseObjects found: ${JSON.stringify(results)}`);
+
+		// // 			cheseList = results;
+
+		// // 			cheseList.map((i, index)=>{
+		// // 				drawCheese(i);
+		// // 				cheseListText[index] = `${i.get("producer")} : ${i.get(`itemName`)} : ${i.get(`plu`)}`;
+		// // 			})
+
+		// // 		}
+		// // 		// console.log('ParseObjects found:', results);
+		// // 	}, (error) => {
+		// // 		if (typeof document !== 'undefined'){
+		// // 			// document.write(`Error while fetching ParseObjects: ${JSON.stringify(error)}`);
+		// // 		}
+		// // 		console.error('Error while fetching ParseObjects', error);
+		// // 	}
+		// // );
+
+		function count_numberOfCheesesInDb(callback){
+			const query = new Parse.Query(CheeseClass);
+			query.count().then(
+				(results) => {
+					numberOfCheesesInDb = results;
+					if(callback){
+						callback();
+					}
+				}, (error) => {
+					alert('Error while fetching ParseObjects', error);
+				}
+			)
+		}
+		
+		function getCheseFromDb(callback, skip){
+
+			console.log(`getCheseFromDb`);
+
+			const query = new Parse.Query(CheeseClass);
+			if(skip){
+				query.skip(skip);
+			}
+			query.find().then(
+				(results) => {
+
+					// cheseList.push(results)
+					results.map((i, index)=>{
+						cheseList.push(i);
+
+						if(index == (results.length-1)){
+							
+							if(cheseList.length < (numberOfCheesesInDb-1)){
+								activlyUseingThoughDb = true;
+								getCheseFromDb(callback, cheseList.length);
+
+							}else{
+								activlyUseingThoughDb = false;
+
+								cheseList.map((cheeseIteam, cheseListIndex)=>{
+									drawCheese(cheeseIteam);
+									cheseListText[cheseListIndex] = `${cheeseIteam.get("producer")} : ${cheeseIteam.get(`itemName`)} : ${cheeseIteam.get(`plu`)}`;
+								})
+
+							}
+
+							if(index == (cheseList.length - 1) && !activlyUseingThoughDb && callback){
+								callback();
+							}
+						}
 					})
 
+					
+				}, (error) => {
+					alert('Error while fetching ParseObjects', error);
 				}
-				// console.log('ParseObjects found:', results);
-			}, (error) => {
-				if (typeof document !== 'undefined'){
-					// document.write(`Error while fetching ParseObjects: ${JSON.stringify(error)}`);
-				}
-				console.error('Error while fetching ParseObjects', error);
-			}
-		);
+			)
+		}
+
+		count_numberOfCheesesInDb(getCheseFromDb);
 
 		/*=====  End of GET FROM DB  ======*/
 		
@@ -425,7 +502,10 @@
 					break;
 				case(cheeseIteam.get("producer") == `Spring Brook Farm`):
 					img.src = `img/SpringBrookFarmLogo.png`;
-					break;	
+					break;
+				default:
+					img.src = ``;
+					break;
 			}
 
 			div.appendChild(img);
@@ -480,13 +560,71 @@
 		=            Add New Cheese            =
 		======================================*/
 		
-		function addNewCheese(){
+		function addNewCheeseGUI(){
 
 			console.log(`new_cheseVeiw`)
 			document.getElementById(`new_cheseVeiw`).removeAttribute(`hidden`);
 
 		}
 		
+		function addNewCheese(){
+
+			console.log(`ran addNewCheese`);
+
+			let new_producer = document.getElementById(`new_producer`).value;
+			let new_itemName = document.getElementById(`new_itemName`).value;
+			let new_plu = document.getElementById(`new_plu`).value;
+			let new_cutStyle = document.getElementById(`new_cutStyle`).value;
+			let new_whole = document.getElementById(`new_whole`).value;
+			let new_halfQtr = document.getElementById(`new_halfQtr`).value;
+			let new_cut = document.getElementById(`new_cut`).value;
+			let new_family = document.getElementById(`new_family`).value;
+
+			// console.log(`new_producer : ${new_producer}`)
+			// console.log(`new_itemName : ${new_itemName}`)
+			// console.log(`new_plu : ${new_plu}`)
+			// console.log(`new_cutStyle : ${new_cutStyle}`)
+			// console.log(`new_whole : ${new_whole}`)
+			// console.log(`new_halfQtr : ${new_halfQtr}`)
+			// console.log(`new_cut : ${new_cut}`)
+			// console.log(`new_family : ${new_family}`)
+
+			if(new_producer && new_itemName && new_plu && new_cutStyle && new_whole && new_halfQtr && new_cut && new_family){
+
+				console.log(`addNewCheese data is good`);
+
+				let newCheese = new CheeseClass();
+
+				newCheese.set("producer", new_producer);
+				newCheese.set("itemName", new_itemName);
+				newCheese.set("plu", Number(new_plu));
+				newCheese.set("cutStyle", new_cutStyle);
+				newCheese.set("whole", Number(new_whole));
+				newCheese.set("halfQtr", Number(new_halfQtr));
+				newCheese.set("cut", Number(new_cut));
+				newCheese.set("family", new_family);
+
+				newCheese.save().then(
+					(result) => {
+						// if (typeof document !== 'undefined'){
+						// 	document.write(`ParseObject created: ${JSON.stringify(result)}`);
+						// }
+						alert('ParseObject created', result);
+						console.log('ParseObject created', result);
+						document.getElementById(`new_cheseVeiw`).hidden = true;
+					},
+					(error) => {
+						if(typeof document !== 'undefined'){
+							document.write(`<h1> Error while creating ParseObject: ${JSON.stringify(error)} </h1>`);
+						}
+						console.error('Error while creating ParseObject: ', error);
+					}
+				);
+			}else{
+				alert(`addNewCheese data is bad`);
+			}
+		}
+
 		/*=====  End of Add New Cheese  ======*/
 		
 

@@ -1365,68 +1365,68 @@
 
 		let index = 0;
 
-		function saveOneToDB(){
-			setTimeout(function() {
+		// function saveOneToDB(){
+		// 	setTimeout(function() {
 
-				const newCheese = new CheeseClass();
+		// 		const newCheese = new CheeseClass();
 
-				console.log(`/*----------  index : ${index}  ----------*/`)
-				console.log("producer", cheseList[index].Producer);
-				console.log("itemName", cheseList[index][`Item Name`]);
-				console.log("plu", cheseList[index].PLU);
-				console.log("cutStyle", cheseList[index][`Cut Style`]);
-				console.log("whole", cheseList[index].Whole);
-				console.log("halfQtr", cheseList[index][`Half Qtr`]);
-				console.log("cut", cheseList[index].Cut);
-				console.log("family", cheseList[index].family);
+		// 		console.log(`/*----------  index : ${index}  ----------*/`)
+		// 		console.log("producer", cheseList[index].Producer);
+		// 		console.log("itemName", cheseList[index][`Item Name`]);
+		// 		console.log("plu", cheseList[index].PLU);
+		// 		console.log("cutStyle", cheseList[index][`Cut Style`]);
+		// 		console.log("whole", cheseList[index].Whole);
+		// 		console.log("halfQtr", cheseList[index][`Half Qtr`]);
+		// 		console.log("cut", cheseList[index].Cut);
+		// 		console.log("family", cheseList[index].family);
 
-				newCheese.set("producer", cheseList[index].Producer);
-				newCheese.set("itemName", cheseList[index][`Item Name`]);
-				newCheese.set("plu", cheseList[index].PLU);
-				newCheese.set("cutStyle", cheseList[index][`Cut Style`]);
-				newCheese.set("whole", cheseList[index].Whole);
-				newCheese.set("halfQtr", cheseList[index][`Half Qtr`]);
-				newCheese.set("cut", cheseList[index].Cut);
-				newCheese.set("family", cheseList[index].family);
+		// 		newCheese.set("producer", cheseList[index].Producer);
+		// 		newCheese.set("itemName", cheseList[index][`Item Name`]);
+		// 		newCheese.set("plu", cheseList[index].PLU);
+		// 		newCheese.set("cutStyle", cheseList[index][`Cut Style`]);
+		// 		newCheese.set("whole", cheseList[index].Whole);
+		// 		newCheese.set("halfQtr", cheseList[index][`Half Qtr`]);
+		// 		newCheese.set("cut", cheseList[index].Cut);
+		// 		newCheese.set("family", cheseList[index].family);
 
-				newCheese.save().then(
-					(result) => {
-						if (typeof document !== 'undefined'){
-							document.write(`ParseObject created: ${JSON.stringify(result)}`);
-							index++;
-							if( index < cheseList.length){
-								saveOneToDB();	
-							}
-						}
-						console.log('ParseObject created', result);
-					},
-					(error) => {
-						if(typeof document !== 'undefined'){
-							document.write(`Error while creating ParseObject: ${JSON.stringify(error)}`);
-						}
-						console.error('Error while creating ParseObject: ', error);
-					}
-				);
+		// 		newCheese.save().then(
+		// 			(result) => {
+		// 				if (typeof document !== 'undefined'){
+		// 					document.write(`ParseObject created: ${JSON.stringify(result)}`);
+		// 					index++;
+		// 					if( index < cheseList.length){
+		// 						saveOneToDB();	
+		// 					}
+		// 				}
+		// 				console.log('ParseObject created', result);
+		// 			},
+		// 			(error) => {
+		// 				if(typeof document !== 'undefined'){
+		// 					document.write(`Error while creating ParseObject: ${JSON.stringify(error)}`);
+		// 				}
+		// 				console.error('Error while creating ParseObject: ', error);
+		// 			}
+		// 		);
 
-				// index++;
-				// if( index < cheseList.length){
-				// 	saveOneToDB();	
-				// }
+		// 		// index++;
+		// 		// if( index < cheseList.length){
+		// 		// 	saveOneToDB();	
+		// 		// }
 
-			}, 1000);
-		}
+		// 	}, 1000);
+		// }
 
 		// saveOneToDB();
 
 
-		const query = new Parse.Query(CheeseClass);
-		query.find().then((results) => {
-			if (typeof document !== 'undefined') document.write(`ParseObjects found: ${JSON.stringify(results)}`);
-			console.log('ParseObjects found:', results);
-		}, (error) => {
-			if (typeof document !== 'undefined') document.write(`Error while fetching ParseObjects: ${JSON.stringify(error)}`);
-			console.error('Error while fetching ParseObjects', error);
-		});
+		// const query = new Parse.Query(CheeseClass);
+		// query.find().then((results) => {
+		// 	if (typeof document !== 'undefined') document.write(`ParseObjects found: ${JSON.stringify(results)}`);
+		// 	console.log('ParseObjects found:', results);
+		// }, (error) => {
+		// 	if (typeof document !== 'undefined') document.write(`Error while fetching ParseObjects: ${JSON.stringify(error)}`);
+		// 	console.error('Error while fetching ParseObjects', error);
+		// });
 
 
 	</script>
